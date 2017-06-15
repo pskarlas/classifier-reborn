@@ -73,9 +73,9 @@ module ClassifierReborn
     def update_category_word_count(category, diff)
       @redis.hincrby(:category_word_count, category, diff)
     end
-
+    
     def add_category(category)
-      @redis.sadd(:category_keys, category.encode('UTF-8'))
+      @redis.sadd(:category_keys, category)
     end
 
     def category_keys
