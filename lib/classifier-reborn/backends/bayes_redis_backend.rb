@@ -75,7 +75,7 @@ module ClassifierReborn
     end
 
     def add_category(category)
-      @redis.sadd(:category_keys, category)
+      @redis.sadd(:category_keys, category.encode('UTF-8'))
     end
 
     def category_keys
