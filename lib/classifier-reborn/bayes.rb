@@ -1,3 +1,4 @@
+# encoding: utf-8
 # Author::    Lucas Carlson  (mailto:lucas@rufy.com)
 # Copyright:: Copyright (c) 2005 Lucas Carlson
 # License::   LGPL
@@ -65,7 +66,7 @@ module ClassifierReborn
     #     b.train "that", "That text"
     #     b.train "The other", "The other text"
     def train(category, text)
-      word_hash = Hasher.word_hash(text, @language, @enable_stemmer)
+      word_hash = Hasher.word_hash(text.encode('utf-8'), @language, @enable_stemmer)
       return if word_hash.empty?
       category = CategoryNamer.prepare_name(category)
 
@@ -236,8 +237,11 @@ module ClassifierReborn
     # more criteria than the trained selective categories. In short,
     # try to initialize your categories at initialization.
     def add_category(category)
-      category = CategoryNamer.prepare_name(category)
+      encoded_category_name = category.encode('UTF-8')
+      # category = CategoryNamer.prepare_name(category)
+      category = CategoryNamer.prepare_name(encoded_category_name)
       @backend.add_category(category)
+
     end
 
     alias_method :append_category, :add_category

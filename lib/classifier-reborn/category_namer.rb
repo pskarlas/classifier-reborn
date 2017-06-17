@@ -1,3 +1,4 @@
+# encoding: utf-8
 # Author::    Lucas Carlson  (mailto:lucas@rufy.com)
 # Copyright:: Copyright (c) 2005 Lucas Carlson
 # License::   LGPL
@@ -11,8 +12,7 @@ module ClassifierReborn
 
     def prepare_name(name)
       return name if name.is_a?(Symbol)
-
-      name.encode('UTF-8').to_s.tr('_', ' ').capitalize.intern
+      name.encode('utf-8').to_s.tr('_', ' ').capitalize.intern
     end
   end
 end
