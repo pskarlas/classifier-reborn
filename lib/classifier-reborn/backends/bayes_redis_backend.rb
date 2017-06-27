@@ -79,7 +79,9 @@ module ClassifierReborn
     end
 
     def category_keys
-      @redis.smembers(:category_keys).map(&:intern)
+      # @redis.smembers(:category_keys).map(&:intern)
+      @redis.smembers(:category_keys)
+
     end
 
     def category_word_frequency(category, word)
