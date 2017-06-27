@@ -129,15 +129,15 @@ module ClassifierReborn
         return score
       end
       category_keys.each do |category|
-        score[category.force_encoding('utf-8').to_s] = 0
+        score[category.to_s] = 0
         total = (@backend.category_word_count(category) || 1).to_f
         word_hash.each do |word, _count|
           s = @backend.word_in_category?(category, word) ? @backend.category_word_frequency(category, word) : 0.1
-          score[category.force_encoding('utf-8').to_s] += Math.log(s / total)
+          score[category.to_s] += Math.log(s / total)
         end
         # now add prior probability for the category
         s = @backend.category_has_trainings?(category) ? @backend.category_training_count(category) : 0.1
-        score[category.force_encoding('utf-8').to_s] += Math.log(s / @backend.total_trainings.to_f)
+        score[category.to_s] += Math.log(s / @backend.total_trainings.to_f)
       end
       score
     end
