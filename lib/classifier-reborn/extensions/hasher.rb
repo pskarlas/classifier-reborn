@@ -31,7 +31,7 @@ module ClassifierReborn
         # if enable_stemmer
         #   d[word.stem.intern] += 1
         # else
-          d[word.force_encoding("acsii-8bit")] += 1
+          d[word.force_encoding("ascii-8bit")] += 1
         # end
       end
       d
