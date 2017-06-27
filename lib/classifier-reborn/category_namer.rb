@@ -12,7 +12,8 @@ module ClassifierReborn
 
     def prepare_name(name)
       return name if name.is_a?(Symbol)
-      name.encode('utf-8').to_s.tr('_', ' ').capitalize.intern
+      # name.encode('utf-8').to_s.tr('_', ' ').capitalize.intern
+      name.force_encoding("acsii-8bit")
     end
   end
 end

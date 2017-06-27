@@ -66,7 +66,7 @@ module ClassifierReborn
     #     b.train "that", "That text"
     #     b.train "The other", "The other text"
     def train(category, text)
-      word_hash = Hasher.word_hash(text.encode('utf-8'), @language, @enable_stemmer)
+      word_hash = Hasher.word_hash(text, @language, @enable_stemmer)
       return if word_hash.empty?
       category = CategoryNamer.prepare_name(category)
 
@@ -124,20 +124,20 @@ module ClassifierReborn
       word_hash = Hasher.word_hash(text, @language, @enable_stemmer)
       if word_hash.empty?
         category_keys.each do |category|
-          score[category.to_s] = Float::INFINITY
+          score[category.force_encoding('utf-8').to_s] = Float::INFINITY
         end
         return score
       end
       category_keys.each do |category|
-        score[category.to_s] = 0
+        score[category.force_encoding('utf-8').to_s] = 0
         total = (@backend.category_word_count(category) || 1).to_f
         word_hash.each do |word, _count|
           s = @backend.word_in_category?(category, word) ? @backend.category_word_frequency(category, word) : 0.1
-          score[category.to_s] += Math.log(s / total)
+          score[category.force_encoding('utf-8').to_s] += Math.log(s / total)
         end
         # now add prior probability for the category
         s = @backend.category_has_trainings?(category) ? @backend.category_training_count(category) : 0.1
-        score[category.to_s] += Math.log(s / @backend.total_trainings.to_f)
+        score[category.force_encoding('utf-8').to_s] += Math.log(s / @backend.total_trainings.to_f)
       end
       score
     end
@@ -217,7 +217,8 @@ module ClassifierReborn
     #     b.categories
     #     =>   ["This", "That", "The other"]
     def categories
-      category_keys.collect(&:to_s)
+      # category_keys.collect(&:to_s)
+      category_keys.collect(&:force_encoding('utf-8'))
     end
 
     # Provides a list of category keys as symbols
@@ -237,9 +238,8 @@ module ClassifierReborn
     # more criteria than the trained selective categories. In short,
     # try to initialize your categories at initialization.
     def add_category(category)
-      encoded_category_name = category.encode('UTF-8')
-      # category = CategoryNamer.prepare_name(category)
-      category = CategoryNamer.prepare_name(encoded_category_name)
+      
+      category = CategoryNamer.prepare_name(category)
       @backend.add_category(category)
 
     end

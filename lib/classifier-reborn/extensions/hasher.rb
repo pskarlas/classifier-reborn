@@ -27,12 +27,12 @@ module ClassifierReborn
     def word_hash_for_words(words, language = 'en', enable_stemmer = true)
       d = Hash.new(0)
       words.each do |word|
-        next unless word.length > 2 && !STOPWORDS[language].include?(word)
-        if enable_stemmer
-          d[word.stem.intern] += 1
-        else
-          d[word.intern] += 1
-        end
+        next unless word.length > 2 #&& !STOPWORDS[language].include?(word)
+        # if enable_stemmer
+        #   d[word.stem.intern] += 1
+        # else
+          d[word.force_encoding("acsii-8bit")] += 1
+        # end
       end
       d
     end
