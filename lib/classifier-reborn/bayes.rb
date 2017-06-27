@@ -218,7 +218,7 @@ module ClassifierReborn
     #     =>   ["This", "That", "The other"]
     def categories
       # category_keys.collect(&:to_s)
-      category_keys.collect(&:force_encoding('utf-8'))
+      category_keys.map { |v| v.force_encoding('utf-8') }
     end
 
     # Provides a list of category keys as symbols
