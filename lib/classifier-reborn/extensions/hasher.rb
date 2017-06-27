@@ -15,8 +15,10 @@ module ClassifierReborn
     # interned, and indexes to its frequency in the document.
     def word_hash(str, language = 'en', enable_stemmer = true)
       cleaned_word_hash = clean_word_hash(str, language, enable_stemmer)
-      symbol_hash = word_hash_for_symbols(str.scan(/[^\s\p{WORD}]/))
-      cleaned_word_hash.merge(symbol_hash)
+      # symbol_hash = word_hash_for_symbols(str.scan(/[^\s\p{WORD}]/))
+      # cleaned_word_hash.merge(symbol_hash)
+      return cleaned_word_hash
+
     end
 
     # Return a word hash without extra punctuation or short symbols, just stemmed words
